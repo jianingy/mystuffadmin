@@ -6,7 +6,7 @@
 <form id="deleteForm" action="" method="post" class="form">
     {% csrf_token %}
     <ol>
-        <li class="question">Do you want to delete <i>{{ object.hostname }}.{{ object.domainname }}</i> ?</li>
+        <li class="question">Do you want to delete <i>{{ object.fqdn }}</i> ?</li>
         <li id="send">
             <button type="submit" class="delete" > delete </button>
             <button type="button" onclick="history.back(0);">cancel</button>
