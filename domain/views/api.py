@@ -12,6 +12,15 @@ def error(m):
     return HttpResponse("ERROR: %s" % m)
 
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+
 def update_ddns_ip(request):
 
     domain      = request.GET.get('domain', None)
@@ -24,7 +33,7 @@ def update_ddns_ip(request):
         return error("domain is missing.")
 
     if not record_a and not record_aaaa:
-        ip = request.META['REMOTE_ADDR']
+        ip = get_client_ip(request)
         if ip.find(':') > -1:
             record_aaaa = ip
         else:
