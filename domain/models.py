@@ -12,8 +12,9 @@ class Zone(models.Model):
     name          = models.CharField(_('name'), max_length=255, unique=True)
     key           = models.CharField(_('key'), max_length=1023,
                                      blank=True, null=True)
-    master_server = models.CharField(_('master server'), max_length=255,
-                                     unique=True)
+    master_server = models.GenericIPAddressField(protocol='both',
+                                                 verbose_name=
+                                                 _('master server'))
 
     def __unicode__(self):
         return "%s" % (self.name)
