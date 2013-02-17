@@ -30,7 +30,8 @@ class DynamicDomainName(models.Model):
     fqdn        = models.CharField(_('domainname'), max_length=255)
     zone        = models.ForeignKey(Zone, verbose_name=_('zone'))
     psk         = models.CharField(_('preshared key'), max_length=63)
-    last_update = models.DateTimeField(_('last update'), blank=True, null=True)
+    last_update = models.DateTimeField(_('last update'), auto_now=True,
+                                       blank=True, null=True)
     created_by  = models.ForeignKey(User)
 
     record_a    = models.GenericIPAddressField(verbose_name=_('ipv4 address'),
