@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="login" class="center">
+    <form action="" method="post" class="form">
+        {% csrf_token %}
+        <ol>
+            {{ login_form.as_ul }}
+            <li id="send">
+                <button type="submit">Log In</button>
+            </li>
+        </ol>
+    </form>
+</div>
+{% endblock %}

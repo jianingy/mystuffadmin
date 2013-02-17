@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="content-wrapper narrow">
+    <h2>Profile: <i>{{user.username}}</i></h2>
+        <form action="" method="post" class="form">
+            {% csrf_token %}
+            <ol>
+                <li><label>username:</label><b>{{ user.username }}</b></li>
+                {{ form.as_ul }}
+                <li id="send">
+                    <button type="submit">Update</button>
+                </li>
+            </ol>
+        </form>
+    </div>
+    {% endblock %}

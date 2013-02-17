@@ -1,0 +1,51 @@
+{% load i18n %}
+{% load base_extras %}
+
+<!doctype html>
+<html>
+    <head>
+        <title>{% block page_title %} {% endblock %}</title>
+        <link rel="stylesheet" href="{{ STATIC_URL }}style.css" />
+    </head>
+
+    <body>
+        <div id="topstroke">&nbsp;</div>
+        <div class="navbar-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <div class="nav-collapse">
+                        <ul class="nav">
+                            <li><a href="/">Home</a></li>
+                            <li class="{% active_by_name request 'ddns/home' %}">
+                                <a href="{% url ddns/home %}">DynamicDNS</a>
+                            </li>
+                            <li><a href="/about">About Us</a></li>
+                        </ul>
+                        <ul class="nav pull-right">
+                            <li class="divider-vertical"></li>
+                            {% if user.username %}
+                            <li class="{% active_by_name request 'account/profile' %}">
+                                <a href="{% url account.views.profile %}">my profile</a>
+                            </li>
+                            <li><a href="{% url account.views.logout %}">log out</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+        <div id="body">
+            <div class="container">
+	            <div id="content">
+                    {% block content %}{% endblock %}
+	            </div>
+            </div>
+        </div>
+        <div id="footer">
+            <div class="container">
+            </div>
+        </div>
+    </body>
+</html>

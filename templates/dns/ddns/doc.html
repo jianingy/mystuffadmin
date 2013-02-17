@@ -1,0 +1,40 @@
+{% extends "domain/base.html" %}
+{% block title %}Dynamic Host API doc{% endblock %}
+{% block submenu-dynamic-doc %}
+<li class="toggle"><b>doc</b></li>
+{% endblock %}
+{% block content %}
+
+<div>
+    <h3 class="title">Update DNS without Signature</h3>
+    <p>
+        Access this the following url to update your dynamic dns record.
+    </p>
+    <pre class="code">curl 'http://localhost:8000/domain/api/update/?ipv4=1.2.3.4&ipv6=&host=test&domain=virtnet.tk&psk=yourpsk'</pre>
+    <p>
+        There are a few things to notice,
+        <ol>
+            <li>Make sure you did not enable <b>signature</b> on your host</li>
+            <li>Make sure your <b>psk</b> is the same as you configured in this system</li>
+            <li>Be sure that there is a <b>/</b> at the end</li>
+            <li>If both ipv4 and ipv6 are not specified, we'll use the IP address that the client uses to call this API.</li>
+        </ol>
+    </p>
+    <h3 class="title">Update DNS with Signature</h3>
+    <p>
+        Access this the following url to update your dynamic dns record.
+    </p>
+    <pre class="code">curl 'http://localhost:8000/domain/api/update/?ipv4=1.2.3.4&ipv6=&host=test&domain=virtnet.tk&sign=yoursignature'</pre>
+    <p>
+        The signature is calculated as following
+        <pre>md5("%s.%s.%s.%s.%s" % (host, domain, ipv4, ipv6, psk))</pre>
+    </p>
+    <p>
+        There are a few things to notice,
+        <ol>
+            <li>If ipv4 or ipv6 is null, just use '' ( an empty string ) instead</li>
+            <li>If both ipv4 and ipv6 are not specified, we'll use the IP address that the client uses to call this API.</li>
+        </ol>
+    </p>
+    </div>
+    {% endblock %}

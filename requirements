@@ -1,0 +1,5 @@
+django
+django-tables2
+django-debug-toolbar
+south
+django-grappelli
