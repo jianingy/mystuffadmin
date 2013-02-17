@@ -26,6 +26,7 @@ class Zone(models.Model):
 class DynamicDomainName(models.Model):
 
     domainname  = models.CharField(_('domainname'), max_length=255)
+    fqdn        = models.CharField(_('domainname'), max_length=255)
     zone        = models.ForeignKey(Zone, verbose_name=_('zone'))
     psk         = models.CharField(_('preshared key'), max_length=63)
     last_update = models.DateTimeField(_('last update'), blank=True, null=True)
@@ -47,11 +48,12 @@ class DynamicDomainName(models.Model):
     def __unicode__(self):
         return "%s.%s" % (self.domainname, self.zone.name)
 
-    def fqdn(self):
-        return "%s.%s." % (self.domainname, self.zone.name)
-
     def isOwnedBy(self, user):
         return self.created_by == user
+
+    def save(self, *args, **kwargs):
+        self.fqdn = "%s.%s." % (self.domainname, self.zone.name)
+        super(DynamicDomainName, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = _('dynamic domain name')

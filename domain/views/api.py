@@ -14,15 +14,14 @@ def error(m):
 
 def update_ddns_ip(request):
 
-    domainname  = request.GET.get('domainname', None)
-    zone        = request.GET.get('zone', None)
+    domain      = request.GET.get('domain', None)
     record_a    = request.GET.get('ipv4', '')
     record_aaaa = request.GET.get('ipv6', '')
     sig         = request.GET.get('sig', None)
     psk         = request.GET.get('psk', None)
 
-    if not domainname or not zone:
-        return error("domainname or zone is missing.")
+    if not domain:
+        return error("domain is missing.")
 
     if not record_a and not record_aaaa:
         ip = request.META['REMOTE_ADDR']
@@ -31,23 +30,22 @@ def update_ddns_ip(request):
         else:
             record_a = ip
 
-    base_q = DynamicDomainName.objects.filter(domainname=domainname)
-    base_q = base_q.filter(zone__name=zone)
+    base_q = DynamicDomainName.objects.filter(fqdn="%s." % domain)
 
     try:
         entry = base_q.get()
-        if entry.require_signature:
+        if entry.auth_mode == 1:
             if not sig:
                 return error("signature is missing.")
-            checkstr = ("%s.%s.%s.%s.%s" %
-                        (domainname, zone, record_a, record_aaaa, entry.psk))
+            checkstr = ("%s.%s.%s.%s" %
+                        (domain, record_a, record_aaaa, entry.psk))
             checksum = md5(checkstr).hexdigest()
             if sig != checksum:
                 return error("signature is incorrect.")
         elif entry.psk != psk:
             return error("psk is incorrect.")
     except ObjectDoesNotExist:
-        return error("domainname does not exist.")
+        return error("domain does not exist.")
     except MultipleObjectsReturned:
         return error("mutiple domainname found. database is corrupted.")
 
@@ -57,7 +55,7 @@ def update_ddns_ip(request):
 
     ddns_update(entry)
 
-    return HttpResponse("Request Queued")
+    return HttpResponse("OK")
 
 
 @login_required
