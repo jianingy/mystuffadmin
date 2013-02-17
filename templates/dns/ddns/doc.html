@@ -1,40 +1,30 @@
-{% extends "domain/base.html" %}
-{% block title %}Dynamic Host API doc{% endblock %}
-{% block submenu-dynamic-doc %}
-<li class="toggle"><b>doc</b></li>
-{% endblock %}
-{% block content %}
-
+{% extends "dns/ddns/base.html" %}
+{% block ddns_content %}
+<h2>dynamic domain api document</h2>
 <div>
-    <h3 class="title">Update DNS without Signature</h3>
+    <h3 class="title">Update DNS with PSK only</h3>
     <p>
-        Access this the following url to update your dynamic dns record.
+        Access the following url to update your dynamic dns record,
     </p>
-    <pre class="code">curl 'http://localhost:8000/domain/api/update/?ipv4=1.2.3.4&ipv6=&host=test&domain=virtnet.tk&psk=yourpsk'</pre>
-    <p>
-        There are a few things to notice,
-        <ol>
-            <li>Make sure you did not enable <b>signature</b> on your host</li>
-            <li>Make sure your <b>psk</b> is the same as you configured in this system</li>
-            <li>Be sure that there is a <b>/</b> at the end</li>
-            <li>If both ipv4 and ipv6 are not specified, we'll use the IP address that the client uses to call this API.</li>
-        </ol>
-    </p>
-    <h3 class="title">Update DNS with Signature</h3>
-    <p>
-        Access this the following url to update your dynamic dns record.
-    </p>
-    <pre class="code">curl 'http://localhost:8000/domain/api/update/?ipv4=1.2.3.4&ipv6=&host=test&domain=virtnet.tk&sign=yoursignature'</pre>
-    <p>
-        The signature is calculated as following
-        <pre>md5("%s.%s.%s.%s.%s" % (host, domain, ipv4, ipv6, psk))</pre>
-    </p>
+    <pre class="code">curl 'http://manage.linuxnote.net/dns/ddns/api/update_ip/?ipv4=1.2.3.4&ipv6=&domain=test.dot1q.tk&psk=yourpsk'</pre>
     <p>
         There are a few things to notice,
         <ol>
-            <li>If ipv4 or ipv6 is null, just use '' ( an empty string ) instead</li>
-            <li>If both ipv4 and ipv6 are not specified, we'll use the IP address that the client uses to call this API.</li>
+            <li>Make sure you did choose <b>PSK only</b> as auth mode for your record</li>
+            <li>Make sure your <b>PSK</b> is the same as you configured</li>
+            <li>Be sure that there is a <b>/</b> between http arguments and the url</li>
+            <li>If both ipv4 are not specified, we'll use client's IP as ipv4.</li>
         </ol>
     </p>
-    </div>
-    {% endblock %}
+    <h3 class="title">Update DNS with PSK with signature</h3>
+    <p>
+        Access the following url to update your dynamic dns record,
+    </p>
+    <pre class="code">curl 'http://manage.linuxnote.net/dns/ddns/api/update_ip/?ipv4=1.2.3.4&ipv6=&domain=test.dot1q.tk&psk=yourpsk&sign=checksum'</pre>
+    <p>
+        The signature is calculated as the following,
+        <pre>md5("%s.%s.%s.%s" % (domain, ipv4, ipv6, psk))</pre>
+    </p>
+</div>
+<div class="center"><a href="javascript:history.back(0);"> back </a></div>
+{% endblock %}

@@ -105,7 +105,7 @@ class DynamicDomainNameDeleteView(DeleteView):
 
 
 class DynamicDomainNameDocView(TemplateView):
-    template_name = 'domain/dynamichost_doc.html'
+    template_name = 'dns/ddns/doc.html'
 
 doc_view = login_required(DynamicDomainNameDocView.as_view())
 list_view = login_required(DynamicDomainNameTableView.as_view())
