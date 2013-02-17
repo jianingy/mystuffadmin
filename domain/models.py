@@ -12,7 +12,7 @@ class Zone(models.Model):
     name          = models.CharField(_('name'), max_length=255, unique=True)
     key           = models.CharField(_('key'), max_length=1023,
                                      blank=True, null=True)
-    master_server = models.CharField(_('master server'), max_length=511,
+    master_server = models.CharField(_('master server'), max_length=255,
                                      unique=True)
 
     def __unicode__(self):
