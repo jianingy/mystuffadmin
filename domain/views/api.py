@@ -40,6 +40,7 @@ def update_ddns_ip(request):
             record_a = ip
 
     base_q = DynamicDomainName.objects.filter(fqdn="%s." % domain)
+    base_q = base_q.filter(auth_mode__lt=2)
 
     try:
         entry = base_q.get()
@@ -54,7 +55,7 @@ def update_ddns_ip(request):
         elif entry.psk != psk:
             return error("psk is incorrect.")
     except ObjectDoesNotExist:
-        return error("domain does not exist.")
+        return error("domain does not exist or does not allow updating.")
     except MultipleObjectsReturned:
         return error("mutiple domainname found. database is corrupted.")
 

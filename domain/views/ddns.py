@@ -15,7 +15,7 @@ from domain.utils import ddns_update
 class DynamicDomainNameForm(forms.ModelForm):
 
     domainname  = forms.CharField(label='domainname')
-    psk         = forms.CharField(label='preshared key')
+    psk         = forms.CharField(label='preshared key', required=False)
 
     record_a    = forms.GenericIPAddressField(label='ipv4 address',
                                               protocol='IPv4',

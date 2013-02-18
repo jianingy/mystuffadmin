@@ -5,11 +5,13 @@ from django.db import models
 AUTH_MODE_CHOICES = (
     (0, 'PSK only'),
     (1, 'PSK with signature'),
+    (2, 'Refuse dynamic update'),
 )
 
 
 class Zone(models.Model):
-    name          = models.CharField(_('name'), max_length=255, unique=True)
+    name          = models.CharField(_('name'), max_length=255,
+                                     unique=True, db_index=True)
     key           = models.CharField(_('key'), max_length=1023,
                                      blank=True, null=True)
     master_server = models.GenericIPAddressField(protocol='both',
@@ -26,10 +28,13 @@ class Zone(models.Model):
 
 class DynamicDomainName(models.Model):
 
-    domainname  = models.CharField(_('domainname'), max_length=255)
-    fqdn        = models.CharField(_('domainname'), max_length=255)
+    domainname  = models.CharField(_('domainname'), max_length=255,
+                                   db_index=True)
+    fqdn        = models.CharField(_('domainname'), max_length=255,
+                                   db_index=True)
     zone        = models.ForeignKey(Zone, verbose_name=_('zone'))
-    psk         = models.CharField(_('preshared key'), max_length=63)
+    psk         = models.CharField(_('preshared key'), max_length=63,
+                                   null=True, blank=True)
     last_update = models.DateTimeField(_('last update'), auto_now=True,
                                        blank=True, null=True)
     created_by  = models.ForeignKey(User)
@@ -45,7 +50,7 @@ class DynamicDomainName(models.Model):
                                                null=True)
 
     auth_mode = models.IntegerField(_('auth mode'), choices=AUTH_MODE_CHOICES,
-                                    default=0)
+                                    default=0, db_index=True)
 
     def __unicode__(self):
         return "%s.%s" % (self.domainname, self.zone.name)
