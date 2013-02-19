@@ -76,8 +76,80 @@ a img {
    margin-top: 20px;
 }
 
-.form ol li#send button {
-   font-size: 150%;
+.form .btn.dark:hover {
+   text-shadow: 0 0 10px #53C8FF;
+}
+
+.form .btn:hover {
+
+   color: #000;
+   border: 1px solid #333;
+}
+
+.form input {
+   font-size: 13px;
+   line-height: 18px;
+   text-shadow: 0 0 1px #111;
+   padding: 4px 5px 4px;
+   text-align: left;
+   vertical-align: middle;
+   display: inline-block;
+   min-width: 108px;
+   -moz-border-radius: 3px;
+   border-radius: 3px;
+   outline: none;
+   color: #333;
+   background-repeat: repeat-x;
+   border: 1px solid #666;
+
+   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+   -moz-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+   -khtml-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+   -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+
+}
+
+.form .btn, .form select {
+   font-size: 13px;
+   line-height: 18px;
+   text-shadow: 0 0 1px #111;
+   padding: 4px 10px 4px;
+   text-align: center;
+   vertical-align: middle;
+   display: inline-block;
+   min-width: 108px;
+   -moz-border-radius: 3px;
+   border-radius: 3px;
+   outline: none;
+   background-color: #05c;
+   color: #333;
+   background-image: -moz-linear-gradient(top,#fff,#ccc);
+   background-image: -webkit-gradient(linear,0 0,0 100%,from(#fff),to(#ccc));
+   background-image: -webkit-linear-gradient(top,#fff, #ccc);
+   background-image: -o-linear-gradient(top,#fff,#ccc);
+   background-image: linear-gradient(to bottom,#fff,#ccc);
+   background-repeat: repeat-x;
+   border: 1px solid #666;
+
+   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+   -moz-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+   -khtml-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+   -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+
+   cursor:pointer;
+}
+
+.form .btn.blue {
+   color: whitesmoke;
+   background-image: -moz-linear-gradient(top,#08c,#05c);
+   background-image: -webkit-gradient(linear,0 0,0 100%,from(#08c),to(#05c));
+   background-image: -webkit-linear-gradient(top,#08c,#05c);
+   background-image: -o-linear-gradient(top,#08c,#05c);
+   background-image: linear-gradient(to bottom,#08c,#05c);
+}
+
+.form select {
+   margin-left: 0;
 }
 
 div#topstroke {
@@ -191,6 +263,7 @@ div#login {
    width: 480px;
    padding: 30px 10px;
    font-size: 150%;
+   background-color: #F8FAF9;
 }
 
 div#login ol > li {
@@ -206,7 +279,7 @@ div#login input {
 div.content-wrapper {
    width: 900px;
    margin: 40px auto;
-   border: 5px solid #ccc;
+   border: 1px solid #ccc;
    padding: 40px 20px;
    background-color: #F8FAF9;
 

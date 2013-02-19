@@ -13,11 +13,11 @@
             {{ form.as_ul }}
             <li id="send">
                 {% if form_action == 'create' %}
-                <button type="submit" class="create">create</button>
+                <button type="submit" class="btn create">create</button>
                 {% else %}
-                <button type="submit" class="update">update</button>
+                <button type="submit" class="btn update">update</button>
                 {% endif %}
-                <button type="button" onclick="history.back(0);">cancel</button>
+                <button type="button" onclick="history.back(0);" class="btn">cancel</button>
             </li>
         </ol>
     </form>
