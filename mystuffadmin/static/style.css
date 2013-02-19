@@ -89,7 +89,7 @@ a img {
 .form input {
    font-size: 13px;
    line-height: 18px;
-   text-shadow: 0 0 1px #111;
+   text-shadow: 0;
    padding: 4px 5px 4px;
    text-align: left;
    vertical-align: middle;
@@ -150,6 +150,7 @@ a img {
 
 .form select {
    margin-left: 0;
+   text-shadow: 0;
 }
 
 div#topstroke {
