@@ -27,6 +27,9 @@ class Package(models.Model):
                                         default=0)
     vcs_address    = models.CharField(_('VCS address'), max_length=512)
     owner          = models.ForeignKey(User)
+    quality        = models.IntegerField(_('Quality'))
+    update_key     = models.CharField(_('update_key'), max_length=32)
+    auto_update    = models.BooleanField(_('auto update'))
 
     recent_changes = models.TextField(_('recent changes'))
 

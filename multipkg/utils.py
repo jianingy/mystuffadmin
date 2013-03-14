@@ -32,10 +32,10 @@ def get_yaml_from_subversion(vcs_address):
         client.update(path_to_yaml)
         yaml = yaml_load(file(path_to_yaml).read())
         recent_changes = []
-        for entry in client.log(vcs_address, limit=5):
+        for entry in client.log(vcs_address, limit=3):
             date = datetime.datetime.fromtimestamp(int(entry.date))
             date = date.strftime('%Y-%m-%d %H:%M:%S')
-            recent_changes.append("revision #%s\nAuthor: %s\nDate:  %s\n%s\n" %
+            recent_changes.append("revision #%-8s | Author: %-20s | Date: %-20s | Comment: %s" %
                                   (entry.revision.number, entry.author,
                                    date, entry.message))
         yaml['.'] = dict(recent_changes="\n".join(recent_changes))
@@ -66,7 +66,7 @@ def get_yaml_from_mercurial(vcs_address):
         for entry in client.log('tip:tip^^'):
             num, rev, none, branch, author, msg, date = entry
             date = date.strftime('%Y-%m-%d %H:%M:%S')
-            recent_changes.append("commit %s\nAuthor: %s\nDate:  %s\n%s\n" %
+            recent_changes.append("commit %s | Author: %s | Date:  %s \n%s\n" %
                                   (rev, author, date, msg))
         yaml['.'] = dict(recent_changes="\n".join(recent_changes))
         return yaml
