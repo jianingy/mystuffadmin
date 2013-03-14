@@ -1,0 +1,45 @@
+{% extends "multipkg/base.html" %}
+
+{% block multipkg_content %}
+<div class="operation right">
+    <a href="{% url multipkg/home %}"> multipkg home </a> | <a href="{% url multipkg.views.sync_view pk=object.pk %}" > refresh package information </a>
+</div>
+<h2>package detail</h2>
+<table class="package-detail">
+    <tr>
+        <th>name</th>
+        <td>{{ object.name }}</td>
+    </tr>
+    <tr>
+        <th>version</th>
+        <td>{{ object.version }}</td>
+    </tr>
+    <tr>
+        <th>release</th>
+        <td>{{ object.release }}</td>
+    </tr>
+    <tr>
+        <th>build</th>
+        <td>{{ object.build }}</td>
+    </tr>
+    <tr>
+        <th>owner</th>
+        <td>{{ object.owner }}</td>
+    </tr>
+    <tr>
+        <th>vcs</th>
+        <td><b> {{ object.get_vcs_type_display }} </b> | <a href="{{ object.vcs_address }}" target="_blank">{{ object.vcs_address }}</a></td>
+    </tr>
+
+</table>
+<h3> Summary </h3>
+<div class="section">
+{{ object.summary }}
+</div>
+
+<h3> Recent Changes </h3>
+<pre class="section">
+{{ object.recent_changes }}
+</div>
+
+{% endblock %}

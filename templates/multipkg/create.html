@@ -1,0 +1,19 @@
+{% extends "multipkg/base.html" %}
+
+{% block multipkg_content %}
+<h2>upload a new package</h2>
+
+    <form method="post" class="form" enctype="multipart/form-data">
+        {% csrf_token %}
+        {# include "base_form.html" #}
+        <ol>
+            {{ form.as_ul }}
+            <li id="send">
+                <button type="submit" class="btn update">upload</button>
+                <button type="button" onclick="history.back(0);" class="btn">cancel</button>
+            </li>
+        </ol>
+    </form>
+
+
+{% endblock %}

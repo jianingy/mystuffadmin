@@ -128,6 +128,7 @@ INSTALLED_APPS = (
     'mystuffadmin',
     'account',
     'domain',
+    'multipkg',
 )
 
 # A sample logging configuration. The only tangible logging

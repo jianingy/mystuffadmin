@@ -304,6 +304,7 @@ div.content-wrapper table {
 div.content-wrapper table th {
    text-align: left;
    background-color: grey;
+   color: #dcdcdc;
 }
 
 div.content-wrapper table th, div.content-wrapper table td {
@@ -315,15 +316,21 @@ div.content-wrapper table tr:hover {
    cursor: pointer;
 }
 
-h2 {
+h2, h3 {
    font-style: italic;
    border-bottom: 1px solid #999;
    text-align: right;
    margin-bottom: 20px;
 }
 
-h2 i {
+h2 i, h3 i {
    color: green;
+}
+
+h3 {
+   border-bottom: 1px dotted #999;
+   text-align: left;
+   margin-left: 5px;
 }
 
 ul.errorlist {
@@ -351,4 +358,32 @@ div.operation {
 
 .question i {
    color: green;
+}
+
+table.package-detail {
+   border: none !important;
+}
+
+table.package-detail th {
+   width: 60px;
+   text-align: center !important;
+   font-weight: bold;
+   background-color: transparent !important;
+   color: #333 !important;
+   border-right: 1px solid #ccc;
+}
+
+
+div.package-summary {
+   margin-left: 7px;
+}
+
+.section {
+   margin-left: 2em;
+}
+
+pre {
+   font-family: "Moanco", monospace;
+   font-size: 11px;
+   white-space: pre;
 }
