@@ -407,3 +407,7 @@ h4 span {
 .comment .delete {
    text-align: right;
 }
+
+.search_form {
+   margin-bottom: 20px;
+}

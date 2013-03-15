@@ -4,7 +4,7 @@
 <div class="operation right">
     <a href="{% url multipkg/home %}"> multipkg home </a> | <a href="{% url multipkg.views.sync_view pk=object.pk %}" > refresh package information </a>
 </div>
-<h2>package detail</h2>
+<h2>package details: <i>{{ object.name }} {{ object.version }}-{{ object.release }}</i></h2>
 <table class="package-detail">
     <tr>
         <th>name</th>

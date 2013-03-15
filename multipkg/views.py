@@ -1,5 +1,6 @@
 # Create your views here.
 from django.utils.translation import ugettext_lazy as _
+from django.db.models import Q
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
@@ -29,6 +30,17 @@ class PackageTableView(SingleTableView):
 
     def get_queryset(self):
         base_q = self.model.objects
+        wd = self.request.GET.get('wd', None)
+        fd = self.request.GET.get('fd', None)
+        if not wd:
+            return base_q.order_by('id')
+
+        if fd == '0':
+            base_q = base_q.filter(Q(name__contains=wd)
+                                   | Q(summary__contains=wd))
+        elif fd == '1':
+            base_q = base_q.filter(owner=wd)
+
         return base_q.order_by('id')
 
 
