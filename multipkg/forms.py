@@ -9,8 +9,9 @@ __author__ = 'Jianing Yang <jianingy.yang AT gmail DOT com>'
 
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from multipkg.models import Package
+from multipkg.models import Package, Comment
 from multipkg.models import VCS_SUBVERSION, VCS_MERCURIAL
+from multipkg.utils import RemotePackageNotExistsError
 from multipkg.utils import get_yaml_from_subversion
 from multipkg.utils import get_yaml_from_mercurial
 
@@ -29,10 +30,16 @@ class PackageCreateForm(forms.ModelForm):
 
         cleaned_data = self.cleaned_data
 
-        if cleaned_data['vcs_type'] == VCS_SUBVERSION:
-            yaml = get_yaml_from_subversion(cleaned_data['vcs_address'])
-        elif cleaned_data['vcs_type'] == VCS_MERCURIAL:
-            yaml = get_yaml_from_mercurial(cleaned_data['vcs_address'])
+        try:
+            if cleaned_data['vcs_type'] == VCS_SUBVERSION:
+                yaml = get_yaml_from_subversion(cleaned_data['vcs_address'])
+            elif cleaned_data['vcs_type'] == VCS_MERCURIAL:
+                yaml = get_yaml_from_mercurial(cleaned_data['vcs_address'])
+        except RemotePackageNotExistsError as e:
+            raise forms.ValidationError(_('cannot import package from "%s"')
+                                        % e.message)
+        except:
+            raise
 
         # set non-exist key to blank
         map(lambda x: yaml['default'].setdefault(x, ''), self.default_fields)
@@ -72,5 +79,18 @@ class PackageCreateForm(forms.ModelForm):
 
     class Meta:
         model = Package
-        exclude = ('name', 'version', 'release', 'build', 'summary', 'owner',
-                   'recent_changes')
+        fields = ('vcs_type', 'vcs_address')
+
+
+class CommentCreateForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        #self.author = kwargs['initial']['user']
+        super(CommentCreateForm, self).__init__(*args, **kwargs)
+
+#    def save(self, commit=True):
+#        comment = super(CommentCreateForm, self).save(commit=False)
+
+    class Meta:
+        model = Comment
+        fields = ('comment', 'package')

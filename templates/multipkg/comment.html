@@ -1,0 +1,16 @@
+{% extends "multipkg/base.html" %}
+
+{% block multipkg_content %}
+<h2>new comment</h2>
+<form method="post" class="form">
+	{% csrf_token %}
+	{# include "base_form.html" #}
+	<ol>
+		{{ form.as_ul }}
+		<li id="send">
+			<button type="submit" class="btn create">add comment</button>
+		</li>
+	</ol>
+</form>
+{% endblock %}
+

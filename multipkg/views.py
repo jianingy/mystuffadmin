@@ -1,14 +1,17 @@
 # Create your views here.
+from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse_lazy
+from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
 from django.http import HttpResponse
 from django_tables2 import SingleTableView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 
-from multipkg.forms import PackageCreateForm
+from multipkg.forms import PackageCreateForm, CommentCreateForm
 from multipkg.tables import PackageTable
-from multipkg.models import Package
+from multipkg.models import Package, Comment
 
 
 class FileFormatError(Exception):
@@ -33,6 +36,13 @@ class PackageDetailView(DetailView):
     model = Package
     template_name = 'multipkg/detail.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(PackageDetailView, self).get_context_data(**kwargs)
+        q = Comment.objects.filter(package=self.get_object())
+        context['comments'] = q.order_by('-created').all()[:20]
+        context['comment_form'] = CommentCreateForm()
+        return context
+
 
 class PackageCreateView(CreateView):
     form_class = PackageCreateForm
@@ -43,6 +53,37 @@ class PackageCreateView(CreateView):
         initial = super(PackageCreateView, self).get_initial()
         initial['user'] = self.request.user
         return initial
+
+
+class CommentCreateView(CreateView):
+    form_class = CommentCreateForm
+    template_name = 'multipkg/comment.html'
+
+    def get_initial(self):
+        initial = super(CommentCreateView, self).get_initial()
+        initial['user'] = self.request.user
+        return initial
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.author = self.request.user
+        self.object.save()
+        return redirect(reverse_lazy('multipkg.views.detail_view',
+                                     args=[self.object.package.id]))
+
+
+def comment_delete_view(request, pk):
+    try:
+        comment = Comment.objects.get(pk=pk)
+        package_id = comment.package.id
+        if comment.author != request.user:
+            return HttpResponse(_('This is not your comment. '
+                                  'You cannot delete it'))
+        comment.delete()
+        return redirect(reverse_lazy('multipkg.views.detail_view',
+                                     args=[package_id]))
+    except Comment.DoesNotExist:
+        return HttpResponse(_('Comment not found'))
 
 
 def sync_view(request, pk):
@@ -82,3 +123,5 @@ def sync_view(request, pk):
 list_view = PackageTableView.as_view()
 detail_view = PackageDetailView.as_view()
 create_view = login_required(PackageCreateView.as_view())
+comment_view = require_http_methods(['POST'])(
+    login_required(CommentCreateView.as_view()))

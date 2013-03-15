@@ -27,11 +27,19 @@ class Package(models.Model):
                                         default=0)
     vcs_address    = models.CharField(_('VCS address'), max_length=512)
     owner          = models.ForeignKey(User)
-    quality        = models.IntegerField(_('Quality'))
-    update_key     = models.CharField(_('update_key'), max_length=32)
-    auto_update    = models.BooleanField(_('auto update'))
+    quality        = models.IntegerField(_('Quality'), default=0)
+    update_key     = models.CharField(_('update_key'), max_length=32,
+                                      default='')
+    auto_update    = models.BooleanField(_('auto update'), default=False)
 
     recent_changes = models.TextField(_('recent changes'))
+
+    created        = models.DateTimeField(_('first created'),
+                                          auto_now_add=True)
+    last_modified  = models.DateTimeField(_('last modified'),
+                                          auto_now=True,
+                                          auto_now_add=True,
+                                          db_index=True)
 
     def __unicode__(self):
         return "%s %s(%s.%s)" % (self.name, self.version,
@@ -39,4 +47,23 @@ class Package(models.Model):
 
     class Meta:
         verbose_name = _('package')
+        verbose_name_plural = verbose_name
+
+
+class Comment(models.Model):
+
+    comment        = models.TextField(_('comment'))
+    author         = models.ForeignKey(User)
+    package        = models.ForeignKey(Package, db_index=True)
+    created        = models.DateTimeField(_('first created'),
+                                          auto_now_add=True,
+                                          db_index=True)
+
+    def __unicode__(self):
+        return "<Comment of %s by %s: %s>" % (self.package,
+                                              self.author,
+                                              self.comment)
+
+    class Meta:
+        verbose_name = _('comment')
         verbose_name_plural = verbose_name

@@ -13,7 +13,9 @@ from django.conf.urls import patterns, url
 urlpatterns = patterns('multipkg.views',
                        url(r'^$', 'list_view', name='multipkg/home'),
                        url(r'^create/$', 'create_view'),
+                       url(r'^comment/$', 'comment_view'),
                        url(r'^sync/(?P<pk>[^/]+)/$', 'sync_view'),
                        url(r'^detail/(?P<pk>\d+)/$', 'detail_view'),
-
+                       url(r'^comment/delete/(?P<pk>\d+)/$',
+                           'comment_delete_view'),
 )

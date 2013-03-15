@@ -365,7 +365,7 @@ table.package-detail {
 }
 
 table.package-detail th {
-   width: 60px;
+   width: 120px;
    text-align: center !important;
    font-weight: bold;
    background-color: transparent !important;
@@ -386,4 +386,24 @@ pre {
    font-family: "Moanco", monospace;
    font-size: 11px;
    white-space: pre;
+}
+
+.comment {
+   width: 90%;
+   height: 6em;
+}
+
+h4 {
+   border-bottom: 1px dotted #ccc;
+}
+
+h4 span {
+   float: right;
+   font-weight: normal;
+   font-size: 90%;
+   color: #666;
+}
+
+.comment .delete {
+   text-align: right;
 }

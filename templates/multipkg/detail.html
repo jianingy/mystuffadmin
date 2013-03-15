@@ -30,23 +30,54 @@
         <th>vcs</th>
         <td><b> {{ object.get_vcs_type_display }} </b> | <a href="{{ object.vcs_address }}" target="_blank">{{ object.vcs_address }}</a></td>
     </tr>
+    <tr>
+        <th>first created</th>
+        <td>{{ object.created }}</td>
+    </tr>
+    <tr>
+        <th>last modified</th>
+        <td>{{ object.last_modified }}</td>
+    </tr>
 
 </table>
 <h3> Summary </h3>
 <div class="section">
-{{ object.summary }}
+    {{ object.summary }}
 </div>
 
 <h3> Recent Changes </h3>
-<pre class="section">
-{{ object.recent_changes }}
-</pre>
+<pre class="section">{{ object.recent_changes }}</pre>
 
-<h3> Comments </h3>
+<h3> Latest Comments </h3>
 <div>
+    <form class="form" action="{% url multipkg.views.comment_view %}" method="POST">
+        {% csrf_token %}
+        <ol>
+            <li><textarea name="comment" class="comment"></textarea></li>
+            <li><button>add comment</button></li>
+        </ol>
+        <input type="hidden" name="package" value="{{object.id}}">
+    </form>
+    {% for comment in comments %}
+    <div class="comment">
+        <h4>Comment by {{comment.author}} <span>{{comment.created}}</span></h4>
+        <div>
+            {{ comment.comment }}
+            <div class="delete">
+                {% if comment.author == request.user %}
+                <a onclick="return delete_comment();" href="{% url multipkg.views.comment_delete_view pk=comment.id %}">delete</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 </div>
 
-</div>
-
-
+<script>
+    function delete_comment() {
+        var yes = confirm('are you sure to delete this comment?');
+        if (yes) return true;
+        return false;
+    }
+</script>
 {% endblock %}

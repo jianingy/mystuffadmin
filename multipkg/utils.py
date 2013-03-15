@@ -11,11 +11,10 @@ from tempfile import mkdtemp
 from os.path import join as path_join
 from yaml import load as yaml_load
 from shutil import rmtree
-from django.conf import settings
 import datetime
 
 
-class PackageNotExistsError(Exception):
+class RemotePackageNotExistsError(Exception):
     pass
 
 
@@ -35,15 +34,15 @@ def get_yaml_from_subversion(vcs_address):
         for entry in client.log(vcs_address, limit=3):
             date = datetime.datetime.fromtimestamp(int(entry.date))
             date = date.strftime('%Y-%m-%d %H:%M:%S')
-            recent_changes.append("revision #%-8s | Author: %-20s | Date: %-20s | Comment: %s" %
-                                  (entry.revision.number, entry.author,
-                                   date, entry.message))
+            fmt = "revision #%-8s | Author: %-20s | Date: %-20s | Comment: %s"
+            recent_changes.append(fmt % (entry.revision.number,
+                                         entry.author, date, entry.message))
         yaml['.'] = dict(recent_changes="\n".join(recent_changes))
         return yaml
     except pysvn.ClientError as e:
         message, code = e.args[1][0]
         if code == 170000:
-            raise PackageNotExistsError(vcs_address)
+            raise RemotePackageNotExistsError(vcs_address)
         else:
             raise
     finally:
@@ -71,7 +70,7 @@ def get_yaml_from_mercurial(vcs_address):
         yaml['.'] = dict(recent_changes="\n".join(recent_changes))
         return yaml
     except HTTPError:
-        raise PackageNotExistsError(vcs_address)
+        raise RemotePackageNotExistsError(vcs_address)
     except:
         raise
     finally:
