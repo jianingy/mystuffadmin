@@ -127,7 +127,6 @@ INSTALLED_APPS = (
 
     'multipkgin',
     'account',
-    'domain',
     'multipkg',
 )
 
