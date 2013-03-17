@@ -1,4 +1,4 @@
-mystuffadmin
+multipkgin
 ============
 
-a web front-end for managing my network stuffs
+a web front-end for managing multipkg packages
