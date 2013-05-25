@@ -124,6 +124,7 @@ INSTALLED_APPS = (
     'south',
     'debug_toolbar',
     'django_tables2',
+    'bootstrapform',
 
     'mystuffadmin',
     'account',

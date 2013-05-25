@@ -1,3 +1,4 @@
-<a href="{% url domain.views.ddns.update_view pk=record.pk %}"><img src="{{ STATIC_URL }}img/edit.png" /></a>
-&nbsp;
-<a href="{% url domain.views.ddns.delete_view pk=record.pk %}"><img src="{{ STATIC_URL }}img/delete.png" /></a>
+<div class="btn-group">
+    <a href="{% url 'domain.views.ddns.update_view' pk=record.pk %}" class="btn"><b class="icon-pencil"></b></a>
+    <a href="{% url 'domain.views.ddns.delete_view' pk=record.pk %}" class="btn"><b class="icon-minus"></b></a>
+</div>

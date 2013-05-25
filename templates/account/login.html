@@ -1,14 +1,18 @@
 {% extends "base.html" %}
+{% load bootstrap %}
+
 {% block content %}
-<div id="login" class="center">
-    <form action="" method="post" class="form">
-        {% csrf_token %}
-        <ol>
-            {{ login_form.as_ul }}
-            <li id="send">
-                <button type="submit" class="btn">Log In</button>
-            </li>
-        </ol>
-    </form>
+<div class="row">
+    <div id="login" class="span12">
+        <form action="" method="post" class="form-horizontal">
+            {% csrf_token %}
+            {{ login_form | bootstrap }}
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-primary">Log In</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}

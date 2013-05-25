@@ -2,49 +2,59 @@
 {% load base_extras %}
 
 <!doctype html>
-<html>
+<html lang="en">
     <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.min.css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-responsive.min.css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/footer.css" />
+        <link href='http://fonts.googleapis.com/css?family=Shojumaru' rel='stylesheet' type='text/css'>
         <title>{% block page_title %} {% endblock %}</title>
-        <link rel="stylesheet" href="{{ STATIC_URL }}style.css" />
+        <script src="{{ STATIC_URL}}js/bootstrap.min.js"></script>
+        {% block header %}{% endblock %}
     </head>
 
     <body>
-        <div id="topstroke">&nbsp;</div>
-        <div class="navbar-top">
-            <div class="navbar-inner">
-                <div class="container">
-                    <div class="nav-collapse">
-                        <ul class="nav">
-                            <li><a href="/">Home</a></li>
-                            <li class="{% active_by_name request 'ddns/home' %}">
-                                <a href="{% url ddns/home %}">DynamicDNS</a>
-                            </li>
-                            <li><a href="/about">About Us</a></li>
-                        </ul>
-                        <ul class="nav pull-right">
-                            <li class="divider-vertical"></li>
-                            {% if user.username %}
-                            <li class="{% active_by_name request 'account/profile' %}">
-                                <a href="{% url account.views.profile %}">my profile</a>
-                            </li>
-                            <li><a href="{% url account.views.logout %}">log out</a></li>
-                            {% endif %}
-                        </ul>
+        <div id="wrap">
+            <div class="navbar navbar-inverse">
+                <div class="navbar-inner">
+                    <div class="container">
+                        <a class="brand" href="/" style="font-family: Shojumaru">NBY Admin</a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav">
+                                <li class="{% active_by_name request 'ddns/home' %}">
+                                    <a href="{% url 'ddns/home' %}">DynamicDNS</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'domain.views.ddns.doc_view' %}">
+                                        Documents
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav pull-right">
+                                <li class="divider-vertical"></li>
+                                {% if user.username %}
+                                <li class="{% active_by_name request 'account/profile' %}">
+                                    <a href="{% url 'account.views.profile' %}">Profile</a>
+                                </li>
+                                <li><a href="{% url 'account.views.logout' %}">Sign out</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
                     </div>
+                    <div class="clear"></div>
                 </div>
-                <div class="clear"></div>
+            </div>
+
+            <div class="container">
+                {% block content %}{% endblock %}
             </div>
         </div>
 
-        <div id="body">
-            <div class="container">
-	            <div id="content">
-                    {% block content %}{% endblock %}
-	            </div>
-            </div>
-        </div>
         <div id="footer">
-            <div class="container">
+            <div class="container text-center">
+                <p class="muted credit">&copy Jianing YANG, 2013</p>
             </div>
         </div>
     </body>
