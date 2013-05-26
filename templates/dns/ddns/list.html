@@ -5,8 +5,14 @@
 <div class="page-header">
     <h2>dynamic domain names</h2>
 </div>
-{% render_table table 'dns/ddns/table.html' %}
-<div>
-    <a href="{% url 'domain.views.ddns.create_view' %}" class="btn btn-primary"><b class="icon-plus icon-white"></b> new domain </a>
+
+<div class="btn-toolbar">
+    <div class="btn-group">
+        <a href="{% url 'domain.views.ddns.create_view' %}" class="btn btn-primary">
+            <b class="icon-plus icon-white"></b> new domain
+        </a>
+    </div>
 </div>
+
+{% render_table table 'dns/ddns/table.html' %}
 {% endblock %}
