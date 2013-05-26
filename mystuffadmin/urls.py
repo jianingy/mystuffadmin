@@ -8,7 +8,7 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'domain.views.ddns.list_view', name='home'),
     # url(r'^mystuffadmin/', include('mystuffadmin.foo.urls')),
-    url(r'^static/(?P.*)$', 'django.views.static.serve',
+    url(r'^static/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': settings.STATIC_ROOT}),
 
     # Uncomment the admin/doc line below to enable admin documentation:
